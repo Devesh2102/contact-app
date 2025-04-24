@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from './Header';
 import ContactList from './ContactList';
-import AddContact from './AddContact';
 import { v4 as uuidv4 } from 'uuid';
+import AddContactWrapper from "./AddContactWrapper";
+import ContactDetails from "./ContactDetails";
+import NotFound from "./NotFound";
 
 function App() {
     const Local_Storage_key = "contacts";
@@ -29,9 +34,22 @@ function App() {
 
     return (
         <div>
-            <Header />
-            <AddContact addContactHandler={addContactHandler} />
-            <ContactList contacts={contacts} getContactId={removeContactHandler} />
+            <Router>
+                <Header />
+                <Routes>
+                    <Route path="/" element={
+                        <ContactList contacts={contacts} getContactId={removeContactHandler} />
+                    }
+                    />
+                    <Route
+                        path="/add"
+                        element={<AddContactWrapper addContactHandler={addContactHandler} />}
+                    />
+                    <Route path="/contact/:id" element={<ContactDetails />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </Router>
+
         </div>
     );
 }

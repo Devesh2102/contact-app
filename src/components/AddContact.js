@@ -1,17 +1,40 @@
 import React from "react";
+import Swal from 'sweetalert2';
+import {Link} from "react-router-dom"
 class AddContact extends React.Component {
     state = {
         name: "",
         email: "",
     }
+
+    showAlert = (title, text, icon = 'info') => {
+        Swal.fire({
+            title,
+            text,
+            icon,
+            timer: 1500,
+            showConfirmButton: false,
+        });
+    };
+
+
     add = (e)=> {
         e.preventDefault();
         if(this.state.name === "" || this.state.email === ""){
-            alert("All fields are required!");
+            this.showAlert('Error!', 'All fields are required!', 'error');
             return
         }
         this.props.addContactHandler(this.state);
-        this.setState({name: "", email: ""});
+        Swal.fire({
+            title: 'Success!',
+            text: 'Contact added successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            this.props.navigate("/");
+        });
+
+        this.setState({ name: "", email: "" });
     }
     render() {
         return (
@@ -38,7 +61,8 @@ class AddContact extends React.Component {
                     </div>
                     <div className="form-group row my-3">
                         <div className="offset-sm-2 col-sm-10">
-                            <button className="btn btn-primary">Add Contact</button>
+                            <button className="btn btn-primary me-5 px-3">Add Contact</button>
+                            <Link to="/" className="ms-5"><button className="btn btn-primary px-3">Back to Contact List</button></Link>
                         </div>
                     </div>
                 </form>

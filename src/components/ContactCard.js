@@ -1,6 +1,7 @@
 import React from "react";
 import user from "../images/user.png";
 import del from "../images/del.png";
+import {Link} from "react-router-dom";
 
 
 function ContactCard(props){
@@ -10,8 +11,14 @@ function ContactCard(props){
             <div className="d-flex align-items-center">
                 <img src={user} alt="user" className="rounded-circle me-3" style={{ width: "40px", height: "40px" }} />
                 <div>
+                    <Link
+                        to={`/contact/${id}`}
+                        state={{ contact: props.contact }}
+                        className="text-decoration-none text-black"
+                    >
                     <div className="fw-bold">{name}</div>
-                    <div className="text-muted">{email}</div>
+                        <div className="text-muted">{email}</div>
+                    </Link>
                 </div>
             </div>
             <button className="btn btn-link p-2" onClick={() => props.clickHandler(id)} >
